@@ -28,7 +28,7 @@ function SignIn({ onLogin, onSwitch }) {
   setLoading(true);
 
   try {
-    const res = await fetch("/login", {
+    const res = await fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -135,7 +135,7 @@ const handleSubmit = async (e) => {
   setLoading(true);
 
   try {
-    const res = await fetch("/register", {
+    const res = await fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
