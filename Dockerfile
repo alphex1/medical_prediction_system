@@ -1,28 +1,38 @@
 FROM node:18
 
-# Install Python + venv
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv nginx
 
 WORKDIR /app
-
 COPY . .
 
-# Create virtual environment
+# Python setup
 RUN python3 -m venv venv
-
-# Activate venv and install backend dependencies
 RUN . venv/bin/activate && pip install -r backend/requirements.txt
 
 # Build frontend
 WORKDIR /app/frontend
-RUN npm install
-RUN npm run build
+RUN npm install && npm run build
 
-# Install serve
-RUN npm install -g serve
-
-# Go back to root
 WORKDIR /app
 
-# Start app using venv python
-CMD bash -c ". venv/bin/activate && python backend/app.py & serve -s frontend/build"
+# Nginx config
+RUN echo '
+server {
+    listen 3000;
+
+    location /api/ {
+        proxy_pass http://localhost:8000/;
+    }
+
+    location / {
+        root /app/frontend/build;
+        index index.html;
+        try_files $uri /index.html;
+    }
+}
+' > /etc/nginx/sites-available/default
+
+CMD bash -c "\
+. venv/bin/activate && \
+uvicorn backend.app:app --host 0.0.0.0 --port 8000 & \
+nginx -g 'daemon off;'"
