@@ -1,0 +1,174 @@
+{
+  "symptoms": [
+    "fever",
+    "cough",
+    "headache",
+    "fatigue",
+    "vomiting",
+    "nausea",
+    "chills",
+    "sweating",
+    "chest_pain",
+    "shortness_of_breath",
+    "weight_loss",
+    "frequent_urination",
+    "blurred_vision",
+    "loss_of_taste_smell",
+    "joint_pain",
+    "skin_rash",
+    "yellowing_of_skin_eyes",
+    "abdominal_pain",
+    "muscle_pain",
+    "loss_of_appetite"
+  ],
+  "classes": [
+    "Dengue",
+    "Diabetes",
+    "Healthy",
+    "Heart Disease",
+    "Jaundice",
+    "Malaria",
+    "Pneumonia",
+    "Typhoid"
+  ],
+  "n_symptoms": 20,
+  "n_classes": 8,
+  "individual_models": {
+    "Random Forest": {
+      "test_acc": 95.31,
+      "cv_mean": 92.5,
+      "cv_std": 2.07
+    },
+    "SVM": {
+      "test_acc": 92.19,
+      "cv_mean": 90.31,
+      "cv_std": 3.03
+    },
+    "Naive Bayes": {
+      "test_acc": 75.0,
+      "cv_mean": 79.69,
+      "cv_std": 2.96
+    }
+  },
+  "ensemble": {
+    "test_acc": 95.31,
+    "cv_mean": 91.56,
+    "cv_std": 2.12
+  },
+  "confusion_matrix": [
+    [
+      8,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      7,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      8,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      7,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      8,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      7,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      8,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      8
+    ]
+  ],
+  "disease_info": {
+    "Diabetes": {
+      "specialist": "Endocrinologist",
+      "urgency": "Medium"
+    },
+    "Heart Disease": {
+      "specialist": "Cardiologist",
+      "urgency": "High"
+    },
+    "Malaria": {
+      "specialist": "General Physician",
+      "urgency": "High"
+    },
+    "Typhoid": {
+      "specialist": "General Physician",
+      "urgency": "High"
+    },
+    "Dengue": {
+      "specialist": "General Physician",
+      "urgency": "High"
+    },
+    "Pneumonia": {
+      "specialist": "Pulmonologist",
+      "urgency": "High"
+    },
+    "Jaundice": {
+      "specialist": "Hepatologist",
+      "urgency": "Medium"
+    },
+    "Healthy": {
+      "specialist": "None",
+      "urgency": "Low"
+    }
+  }
+}

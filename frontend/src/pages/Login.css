@@ -1,0 +1,192 @@
+/* ── base page ─────────────────────────────────────────────────── */
+.login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
+  pointer-events: none;
+}
+
+.login-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); pointer-events: none;
+}
+.login-orb1 { width:420px;height:420px;background:rgba(0,212,170,0.08);top:-120px;left:-100px; }
+.login-orb2 { width:320px;height:320px;background:rgba(77,159,255,0.06);bottom:-100px;right:-80px; }
+
+/* ── card ──────────────────────────────────────────────────────── */
+.login-form-container {
+  width: 100%; max-width: 420px;
+  padding: 36px 32px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-md);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 100px rgba(0,0,0,0.5);
+  position: relative; z-index: 10;
+  animation: scaleIn 0.45s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── header ────────────────────────────────────────────────────── */
+.auth-header { text-align: center; margin-bottom: 22px; }
+.auth-logo-mark { color: var(--teal); font-size: 22px; }
+.auth-title {
+  font-family: var(--font-display);
+  font-size: 30px; margin: 6px 0 4px;
+}
+.auth-subtitle { font-size: 13px; color: var(--text-sec); }
+
+/* ── tabs ──────────────────────────────────────────────────────── */
+.auth-tabs {
+  display: flex;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-md);
+  border-radius: 50px;
+  padding: 4px;
+  margin-bottom: 24px;
+  gap: 4px;
+}
+.auth-tab {
+  flex: 1;
+  font-size: 13px; font-weight: 500;
+  padding: 8px 0;
+  border-radius: 50px;
+  color: var(--text-sec);
+  transition: all 0.2s;
+}
+.auth-tab:hover { color: var(--text); }
+.auth-tab-active {
+  background: var(--teal) !important;
+  color: #0a0a12 !important;
+  font-weight: 600;
+}
+
+/* ── form ──────────────────────────────────────────────────────── */
+.auth-form { display: flex; flex-direction: column; gap: 16px; }
+.login-field { display: flex; flex-direction: column; gap: 6px; }
+.login-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+/* ── input ─────────────────────────────────────────────────────── */
+.login-input-wrap { position: relative; }
+.login-input-icon {
+  position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%); color: var(--text-muted);
+  display: flex; align-items: center;
+}
+.auth-input-right {
+  position: absolute; right: 12px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; align-items: center;
+}
+.auth-eye {
+  color: var(--text-muted);
+  display: flex; align-items: center;
+  transition: color 0.15s;
+}
+.auth-eye:hover { color: var(--text); }
+.auth-input {
+  width: 100%;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-md);
+  border-radius: var(--radius-sm);
+  padding: 11px 36px 11px 36px;
+  color: var(--text); font-size: 14px;
+  transition: all 0.2s;
+}
+.login-input::placeholder { color: var(--text-muted); }
+.login-input:focus {
+  outline: none;
+  border-color: var(--teal-border);
+  background: var(--bg-hover);
+}
+
+/* ── password strength ─────────────────────────────────────────── */
+.auth-strength {
+  display: flex; align-items: center; gap: 8px; margin-top: 6px;
+}
+.auth-strength-bars { display: flex; gap: 4px; }
+.auth-strength-bar {
+  width: 28px; height: 4px;
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+.auth-strength-label { font-size: 11px; font-weight: 500; }
+.auth-field-err { font-size: 11px; color: var(--red); margin-top: 4px; }
+
+/* ── error ─────────────────────────────────────────────────────── */
+.auth-error {
+  font-size: 13px; color: var(--red);
+  background: var(--red-dim);
+  border: 1px solid rgba(255,77,109,0.25);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── submit ────────────────────────────────────────────────────── */
+.auth-submit {
+  margin-top: 4px;
+  background: var(--teal); color: #0a0a12;
+  font-weight: 600; padding: 13px;
+  border-radius: 50px;
+  display: flex; justify-content: center; align-items: center; gap: 10px;
+  transition: all 0.2s; font-size: 14px;
+}
+.auth-submit:hover:not(:disabled) {
+  background: #00efc0;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,212,170,0.25);
+}
+.auth-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.auth-spinner {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(10,10,18,0.3);
+  border-top-color: #0a0a12;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── footer ────────────────────────────────────────────────────── */
+.auth-footer-text { font-size: 12px; color: var(--text-muted); }
+.auth-link-btn {
+  color: var(--teal); font-size: 12px; font-weight: 500;
+  text-decoration: underline; text-underline-offset: 2px;
+  transition: opacity 0.15s;
+}
+.auth-link-btn:hover { opacity: 0.8; }
+
+/* ── aliases for old class names still used ────────────────────── */
+.login-form   { display: flex; flex-direction: column; gap: 16px; }
+.login-error  { font-size:13px;color:var(--red);background:var(--red-dim);border:1px solid rgba(255,77,109,.25);padding:10px 14px;border-radius:var(--radius-sm); }
+.login-submit { margin-top:4px;background:var(--teal);color:#0a0a12;font-weight:600;padding:13px;border-radius:50px;display:flex;justify-content:center;align-items:center;gap:10px;transition:all .2s; }
+.login-submit:hover:not(:disabled){background:#00efc0;transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,212,170,.25);}
+.login-submit:disabled{opacity:.5;cursor:not-allowed;}
+.login-spinner{width:14px;height:14px;border:2px solid rgba(10,10,18,.3);border-top-color:#0a0a12;border-radius:50%;animation:spin .7s linear infinite;}
+.login-footer{margin-top:12px;text-align:center;}
+.login-footer-text{font-size:12px;color:var(--text-muted);}
+.login-link{color:var(--teal);text-decoration:none;}
+.login-link:hover{text-decoration:underline;}
+
+/* Fix select styling to match input */
+.auth-select {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Fix select text color */
+.auth-select option {
+  background: #0a0a12;
+  color: white;
+}
