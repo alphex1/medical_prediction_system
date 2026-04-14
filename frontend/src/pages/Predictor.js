@@ -70,7 +70,7 @@ export default function Predictor({ onResults, onBack, user }) {
     setError('');
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/predict', {
+      const res = await fetch('/api/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ symptoms: Array.from(selected), user_email: user.email }),
