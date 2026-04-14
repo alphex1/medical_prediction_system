@@ -17,6 +17,7 @@ Folder structure (either works):
        ├── label_encoder.pkl
        └── model_meta.json
 """
+import os
 from database import SessionLocal, engine
 from models import User, Prediction, Base
 
