@@ -2,14 +2,14 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-# Get Supabase database URL from environment
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# Create engine
-engine = create_engine(DATABASE_URL)
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set")
 
-# Create session
+# Supabase requires SSL
+engine = create_engine(DATABASE_URL, connect_args={"sslmode": "require"})
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Base class
 Base = declarative_base()
