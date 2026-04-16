@@ -1,7 +1,15 @@
+import os
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "mysql+pymysql://root:@localhost/medipredict"
+# Get Supabase database URL from environment
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
+# Create engine
 engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine)
+
+# Create session
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Base class
+Base = declarative_base()
