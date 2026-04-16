@@ -25,7 +25,7 @@ class Prediction(Base):
     user_email = Column(String(100))
     disease = Column(String(100))
     confidence = Column(Float)
-    symptoms = Column(String(255))
+    symptoms = Column(String(500))
 
 
 # ── CREATE TABLES ─────────────────────────
