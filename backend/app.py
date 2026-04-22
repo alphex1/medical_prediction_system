@@ -387,3 +387,6 @@ def delete_prediction(id: int):
     db.commit()
 
     return {"message": "Deleted successfully"}
+@app.get("/")
+def home():
+    return {"status": "running"}
