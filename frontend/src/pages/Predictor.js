@@ -107,7 +107,7 @@ export default function Predictor({ onResults, onBack, user }) {
         </button>
         <div className="pred-header-center">
           <span className="pred-logo-mark">✦</span>
-          <span>MediPredict</span>
+          <span>Disease Prediction System</span>
         </div>
         <div className="pred-count-badge">
           {selected.size} / 20 selected
