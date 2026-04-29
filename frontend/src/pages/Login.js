@@ -61,7 +61,7 @@ function SignIn({ onLogin, onSwitch }) {
       <div className="auth-header">
         <span className="auth-logo-mark">✦</span>
         <h1 className="auth-title">Welcome back</h1>
-        <p className="auth-subtitle">Sign in to MediPredict</p>
+        <p className="auth-subtitle">Sign in </p>
       </div>
  
       <div className="auth-tabs">
@@ -171,7 +171,7 @@ const handleSubmit = async (e) => {
       <div className="auth-header">
         <span className="auth-logo-mark">✦</span>
         <h1 className="auth-title">Create account</h1>
-        <p className="auth-subtitle">Join MediPredict for free</p>
+        <p className="auth-subtitle">Join for free</p>
       </div>
  
       <div className="auth-tabs">
