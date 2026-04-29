@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { db } from '../db';
-
+ 
+const API = process.env.REACT_APP_API_URL || "https://medicalpredictionsystem-production-6152.up.railway.app";
+ 
 /* ── tiny tab state machine ─────────────────────────────────────── */
 export default function Login({ onLogin }) {
   const [tab, setTab] = useState('signin'); // 'signin' | 'signup'
-
+ 
   return tab === 'signin'
     ? <SignIn onLogin={onLogin} onSwitch={() => setTab('signup')} />
     : <SignUp onLogin={onLogin} onSwitch={() => setTab('signin')} />;
 }
-
+ 
 /* ══════════════════════════════════════════════════════════════════
    SIGN IN
 ══════════════════════════════════════════════════════════════════ */
@@ -21,14 +23,14 @@ function SignIn({ onLogin, onSwitch }) {
   const [error, setError]       = useState('');
   const [showPw, setShowPw]     = useState(false);
  
-
+ 
   const handleSubmit = async (e) => {
   e.preventDefault();
   setError('');
   setLoading(true);
-
+ 
   try {
-    const res = await fetch("/api/login", {
+    const res = await fetch(`${API}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -38,22 +40,22 @@ function SignIn({ onLogin, onSwitch }) {
         password
       })
     });
-
+ 
     const data = await res.json();
-
+ 
     if (data.error) {
       setError(data.error);
     } else {
       onLogin(data);
     }
-
+ 
   } catch (err) {
     setError("Server error");
   }
-
+ 
   setLoading(false);
 };
-
+ 
   return (
     <AuthShell>
       <div className="auth-header">
@@ -61,12 +63,12 @@ function SignIn({ onLogin, onSwitch }) {
         <h1 className="auth-title">Welcome back</h1>
         <p className="auth-subtitle">Sign in to MediPredict</p>
       </div>
-
+ 
       <div className="auth-tabs">
         <button className="auth-tab auth-tab-active">Sign in</button>
         <button className="auth-tab" onClick={onSwitch}>Sign up</button>
       </div>
-
+ 
       <form className="auth-form" onSubmit={handleSubmit}>
         <Field label="Email address">
           <InputWrap icon={<EmailIcon />}>
@@ -74,7 +76,7 @@ function SignIn({ onLogin, onSwitch }) {
               value={email} onChange={e => setEmail(e.target.value)} required autoFocus />
           </InputWrap>
         </Field>
-
+ 
         <Field label="Password">
           <InputWrap icon={<LockIcon />} right={
             <button type="button" className="auth-eye" onClick={() => setShowPw(p => !p)}>
@@ -86,13 +88,13 @@ function SignIn({ onLogin, onSwitch }) {
               value={password} onChange={e => setPassword(e.target.value)} required />
           </InputWrap>
         </Field>
-
+ 
         {error && <div className="auth-error">{error}</div>}
-
+ 
         <button type="submit" className="auth-submit" disabled={loading}>
           {loading ? <><span className="auth-spinner" /> Signing in…</> : 'Sign in'}
         </button>
-
+ 
         <p className="auth-footer-text" style={{ textAlign: 'center', marginTop: 8 }}>
           Don't have an account?{' '}
           <button type="button" className="auth-link-btn" onClick={onSwitch}>Sign up</button>
@@ -101,7 +103,7 @@ function SignIn({ onLogin, onSwitch }) {
     </AuthShell>
   );
 }
-
+ 
 /* ══════════════════════════════════════════════════════════════════
    SIGN UP
 ══════════════════════════════════════════════════════════════════ */
@@ -115,27 +117,27 @@ function SignUp({ onLogin, onSwitch }) {
   const [showPw, setShowPw]           = useState(false);
   const [age, setAge]                 = useState('');
   const [gender, setGender]           = useState('');
-
+ 
   const strength = passwordStrength(password);
-
+ 
 const handleSubmit = async (e) => {
   e.preventDefault();
   setError('');
-
+ 
   if (password !== confirm) {
     setError('Passwords do not match.');
     return;
   }
-
+ 
   if (password.length < 6) {
     setError('Password must be at least 6 characters.');
     return;
   }
-
+ 
   setLoading(true);
-
+ 
   try {
-    const res = await fetch("/api/register", {
+    const res = await fetch(`${API}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -148,22 +150,22 @@ const handleSubmit = async (e) => {
         gender
       })
     });
-
+ 
     const data = await res.json();
-
+ 
     if (data.error) {
       setError(data.error);
     } else {
       onLogin(data);
     }
-
+ 
   } catch (err) {
     setError("Server error");
   }
-
+ 
   setLoading(false);
 };
-
+ 
   return (
     <AuthShell>
       <div className="auth-header">
@@ -171,12 +173,12 @@ const handleSubmit = async (e) => {
         <h1 className="auth-title">Create account</h1>
         <p className="auth-subtitle">Join MediPredict for free</p>
       </div>
-
+ 
       <div className="auth-tabs">
         <button className="auth-tab" onClick={onSwitch}>Sign in</button>
         <button className="auth-tab auth-tab-active">Sign up</button>
       </div>
-
+ 
       <form className="auth-form" onSubmit={handleSubmit}>
         <Field label="Full name">
           <InputWrap icon={<UserIcon />}>
@@ -184,14 +186,14 @@ const handleSubmit = async (e) => {
               value={name} onChange={e => setName(e.target.value)} required autoFocus />
           </InputWrap>
         </Field>
-
+ 
         <Field label="Email address">
           <InputWrap icon={<EmailIcon />}>
             <input className="auth-input" type="email" placeholder="you@example.com"
               value={email} onChange={e => setEmail(e.target.value)} required />
           </InputWrap>
         </Field>
-
+ 
         <Field label="Age">
           <InputWrap icon={<UserIcon />}>
             <input
@@ -204,7 +206,7 @@ const handleSubmit = async (e) => {
             />
          </InputWrap>
         </Field>
-
+ 
         <Field label="Gender">
          <InputWrap icon={<UserIcon />}>
            <select
@@ -242,7 +244,7 @@ const handleSubmit = async (e) => {
             </div>
           )}
         </Field>
-
+ 
         <Field label="Confirm password">
           <InputWrap icon={<LockIcon />}>
             <input className="auth-input" type="password" placeholder="Re-enter your password"
@@ -252,13 +254,13 @@ const handleSubmit = async (e) => {
             <p className="auth-field-err">Passwords don't match</p>
           )}
         </Field>
-
+ 
         {error && <div className="auth-error">{error}</div>}
-
+ 
         <button type="submit" className="auth-submit" disabled={loading}>
           {loading ? <><span className="auth-spinner" /> Creating account…</> : 'Create account'}
         </button>
-
+ 
         <p className="auth-footer-text" style={{ textAlign: 'center', marginTop: 8 }}>
           Already have an account?{' '}
           <button type="button" className="auth-link-btn" onClick={onSwitch}>Sign in</button>
@@ -267,7 +269,7 @@ const handleSubmit = async (e) => {
     </AuthShell>
   );
 }
-
+ 
 /* ── shared layout ───────────────────────────────────────────────── */
 function AuthShell({ children }) {
   return (
@@ -279,7 +281,7 @@ function AuthShell({ children }) {
     </div>
   );
 }
-
+ 
 function Field({ label, children }) {
   return (
     <div className="login-field">
@@ -288,7 +290,7 @@ function Field({ label, children }) {
     </div>
   );
 }
-
+ 
 function InputWrap({ icon, right, children }) {
   return (
     <div className="login-input-wrap">
@@ -298,10 +300,10 @@ function InputWrap({ icon, right, children }) {
     </div>
   );
 }
-
+ 
 /* ── helpers ─────────────────────────────────────────────────────── */
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
+ 
 function passwordStrength(pw) {
   if (!pw) return { level: 0, label: '', color: '' };
   const strong = pw.length >= 10 && /[A-Z]/.test(pw) && /[0-9]/.test(pw);
@@ -310,7 +312,7 @@ function passwordStrength(pw) {
   if (medium) return { level: 2, label: 'Fair',   color: 'var(--amber)' };
   return       { level: 1, label: 'Weak',   color: 'var(--red)' };
 }
-
+ 
 /* ── icons ───────────────────────────────────────────────────────── */
 const EmailIcon = () => (
   <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
