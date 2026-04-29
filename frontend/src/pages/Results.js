@@ -126,7 +126,7 @@ export default function Results({ data, onReset, onBack, user }) {
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
     doc.setFont('helvetica', 'bold');
-    doc.text('MediPredict', margin + 9, 18);
+    doc.text('Disease Prediction System', margin + 9, 18);
 
     doc.setFontSize(8.5);
     doc.setFont('helvetica', 'normal');
@@ -327,10 +327,10 @@ export default function Results({ data, onReset, onBack, user }) {
     doc.setFontSize(7.5);
     doc.setTextColor(100, 110, 135);
     doc.setFont('helvetica', 'normal');
-    doc.text('MediPredict  ·  AI Health Analysis · This is NOT a medical diagnosis, Please consult a licensed doctor.', margin, pageH - 5);
+    doc.text('Disease Prediction System  ·  AI Health Analysis · This is NOT a medical diagnosis, Please consult a licensed doctor.', margin, pageH - 5);
     doc.text('Page 1 of 1', pageW - margin, pageH - 5, { align: 'right' });
 
-    doc.save("MediPredict_Report.pdf");
+    doc.save("Prediction_Report.pdf");
   };
 
   return (
@@ -347,7 +347,7 @@ export default function Results({ data, onReset, onBack, user }) {
           Back
         </button>
         <div className="res-logo">
-          <span style={{ color: 'var(--teal)' }}>✦</span> MediPredict
+          <span style={{ color: 'var(--teal)' }}>✦</span> Disease Prediction System
         </div>
         <button className="res-again-btn" onClick={onReset}>
           Check again
