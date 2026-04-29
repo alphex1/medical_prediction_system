@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Predictor.css';
-
+ 
+const API = process.env.REACT_APP_API_URL || "https://medicalpredictionsystem-production-6152.up.railway.app";
+ 
 /**
  * Symptom list — keys match model_meta.json exactly (order doesn't matter for UI,
  * the backend builds the feature vector in the correct training order).
@@ -37,18 +39,18 @@ const GROUPS = {
     { key: 'frequent_urination', label: 'Frequent Urination' },
   ],
 };
-
+ 
 // Flat list (all 20, deduplicated) for "All" tab and search
 const ALL = Object.values(GROUPS).flat();
 const TABS = ['All', ...Object.keys(GROUPS)];
-
+ 
 export default function Predictor({ onResults, onBack, user }) {
   const [selected, setSelected] = useState(new Set());
   const [tab, setTab]           = useState('All');
   const [search, setSearch]     = useState('');
   const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState('');
-
+ 
   const toggle = (key) => {
     setSelected(prev => {
       const next = new Set(prev);
@@ -56,7 +58,7 @@ export default function Predictor({ onResults, onBack, user }) {
       return next;
     });
   };
-
+ 
   const getSymptoms = () => {
     if (search.trim()) {
       const q = search.toLowerCase();
@@ -64,13 +66,13 @@ export default function Predictor({ onResults, onBack, user }) {
     }
     return tab === 'All' ? ALL : (GROUPS[tab] || []);
   };
-
+ 
   const predict = async () => {
     if (selected.size === 0) { setError('Please select at least one symptom.'); return; }
     setError('');
     setLoading(true);
     try {
-      const res = await fetch('/api/predict', {
+      const res = await fetch(`${API}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ symptoms: Array.from(selected), user_email: user.email }),
@@ -87,14 +89,14 @@ export default function Predictor({ onResults, onBack, user }) {
       setLoading(false);
     }
   };
-
+ 
   const symptoms = getSymptoms();
-
+ 
   return (
     <div className="pred-page">
       <div className="pred-orb pred-orb1" />
       <div className="pred-orb pred-orb2" />
-
+ 
       {/* Header */}
       <header className="pred-header">
         <button className="pred-back" onClick={onBack}>
@@ -111,13 +113,13 @@ export default function Predictor({ onResults, onBack, user }) {
           {selected.size} / 20 selected
         </div>
       </header>
-
+ 
       <div className="pred-body">
         <div className="pred-top fade-up">
           <h2 className="pred-title">Select your symptoms</h2>
           <p className="pred-sub">Choose everything you are currently experiencing. You can select multiple.</p>
         </div>
-
+ 
         {/* Search */}
         <div className="pred-search-wrap fade-up" style={{ animationDelay: '0.05s' }}>
           <svg className="pred-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -135,7 +137,7 @@ export default function Predictor({ onResults, onBack, user }) {
             <button className="pred-search-clear" onClick={() => setSearch('')}>✕</button>
           )}
         </div>
-
+ 
         {/* Tabs */}
         {!search && (
           <div className="pred-tabs fade-up" style={{ animationDelay: '0.1s' }}>
@@ -159,7 +161,7 @@ export default function Predictor({ onResults, onBack, user }) {
             ))}
           </div>
         )}
-
+ 
         {/* Symptom chips */}
         <div className="pred-grid fade-up" style={{ animationDelay: '0.15s' }}>
           {symptoms.length === 0 && (
@@ -180,7 +182,7 @@ export default function Predictor({ onResults, onBack, user }) {
             </button>
           ))}
         </div>
-
+ 
         {/* Selected preview */}
         {selected.size > 0 && (
           <div className="pred-selected-wrap fade-in">
@@ -198,11 +200,11 @@ export default function Predictor({ onResults, onBack, user }) {
             </div>
           </div>
         )}
-
+ 
         {/* Error */}
         {error && <p className="pred-error">{error}</p>}
       </div>
-
+ 
       {/* Bottom bar */}
       <div className="pred-footer">
         <div className="pred-footer-info">
@@ -231,3 +233,4 @@ export default function Predictor({ onResults, onBack, user }) {
     </div>
   );
 }
+ 
