@@ -55,7 +55,7 @@ export default function Profile({ user, onBack, onLogout }) {
           Back
         </button>
         <div className="prof-header-logo">
-          <span style={{ color: 'var(--teal)' }}>✦</span> MediPredict
+          <span style={{ color: 'var(--teal)' }}>✦</span> Disease Prediction System
         </div>
         <button className="prof-logout-btn" onClick={() => setShow(true)}>
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
