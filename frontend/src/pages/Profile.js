@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
-
+ 
+const API = process.env.REACT_APP_API_URL || "https://medicalpredictionsystem-production-6152.up.railway.app";
+ 
 const URGENCY_COLOR = { High: '#ff4d6d', Medium: '#ffb347', Low: '#00d4aa' };
-
+ 
 export default function Profile({ user, onBack, onLogout }) {
   const [history, setHistory]   = useState([]);
   const [tab, setTab]           = useState('history'); // 'history' | 'account'
   const [showConfirm, setShow]  = useState(false);
-
+ 
   useEffect(() => {
-  fetch(`http://localhost:8000/history/${user.email}`)
+  fetch(`${API}/history/${user.email}`)
     .then(res => res.json())
     .then(data => {
       console.log("history:", data); // debug
@@ -17,33 +19,33 @@ export default function Profile({ user, onBack, onLogout }) {
     })
     .catch(() => setHistory([]));
 }, [user.email]);
-
+ 
   const handleDelete = async (id) => {
-  await fetch(`http://localhost:8000/delete/${id}`, {
+  await fetch(`${API}/delete/${id}`, {
     method: "DELETE"
   });
-
+ 
   // refresh history
-  const res = await fetch(`http://localhost:8000/history/${user.email}`);
+  const res = await fetch(`${API}/history/${user.email}`);
   const data = await res.json();
   setHistory(data);
 };
-
+ 
   const initials = (user.name || user.email)
     .split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-
+ 
   const joinDate = (() => {
     const users = JSON.parse(localStorage.getItem('medipredict_users') || '{}');
     const u = users[user.email];
     if (!u?.createdAt) return 'N/A';
     return new Date(u.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
   })();
-
+ 
   return (
     <div className="prof-page">
       <div className="prof-orb prof-orb1" />
       <div className="prof-orb prof-orb2" />
-
+ 
       {/* Header */}
       <header className="prof-header">
         <button className="prof-back" onClick={onBack}>
@@ -62,9 +64,9 @@ export default function Profile({ user, onBack, onLogout }) {
           Logout
         </button>
       </header>
-
+ 
       <div className="prof-body">
-
+ 
         {/* Hero card */}
         <div className="prof-hero scale-in">
           <div className="prof-avatar">{initials}</div>
@@ -97,7 +99,7 @@ export default function Profile({ user, onBack, onLogout }) {
             </div>
           </div>
         </div>
-
+ 
         {/* Tabs */}
         <div className="prof-tabs fade-up" style={{ animationDelay: '0.1s' }}>
           <button className={`prof-tab ${tab === 'history' ? 'prof-tab-active' : ''}`} onClick={() => setTab('history')}>
@@ -107,7 +109,7 @@ export default function Profile({ user, onBack, onLogout }) {
             Account Info
           </button>
         </div>
-
+ 
         {/* History tab */}
         {tab === 'history' && (
           <div className="prof-section fade-up" style={{ animationDelay: '0.15s' }}>
@@ -161,7 +163,7 @@ export default function Profile({ user, onBack, onLogout }) {
             )}
           </div>
         )}
-
+ 
         {/* Account tab */}
         {tab === 'account' && (
           <div className="prof-section fade-up" style={{ animationDelay: '0.15s' }}>
@@ -173,7 +175,7 @@ export default function Profile({ user, onBack, onLogout }) {
               <InfoRow icon={<CalIcon />} label="Member since" value={user.created_at ? new Date(user.created_at).toLocaleDateString() : '—'} />
               <InfoRow icon={<ShieldIcon />} label="Password" value="••••••••" />
             </div>
-
+ 
             <div className="prof-danger-zone">
               <p className="prof-danger-label">Danger zone</p>
               <button className="prof-danger-btn" onClick={() => setShow(true)}>
@@ -186,7 +188,7 @@ export default function Profile({ user, onBack, onLogout }) {
           </div>
         )}
       </div>
-
+ 
       {/* Logout confirm dialog */}
       {showConfirm && (
         <div className="prof-overlay" onClick={() => setShow(false)}>
@@ -204,7 +206,7 @@ export default function Profile({ user, onBack, onLogout }) {
     </div>
   );
 }
-
+ 
 function InfoRow({ icon, label, value }) {
   return (
     <div className="prof-info-row">
@@ -216,7 +218,7 @@ function InfoRow({ icon, label, value }) {
     </div>
   );
 }
-
+ 
 const UserIcon = () => (
   <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
     <circle cx="8" cy="5.5" r="3" stroke="currentColor" strokeWidth="1.4"/>
