@@ -16,10 +16,10 @@ export default function Landing({ onStart, onProfile, user }) {
       <nav className="land-nav">
         <div className="land-logo">
           <span className="land-logo-mark">✦</span>
-          MediPredict
+          Disease Prediction System
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span className="land-badge">AI · Beta</span>
+          <span className="land-badge"></span>
           {user && (
             <button className="land-profile-btn" onClick={onProfile} title="My profile">
               <span className="land-profile-avatar">{initials}</span>
@@ -68,7 +68,7 @@ export default function Landing({ onStart, onProfile, user }) {
 
         <div className="land-stats fade-up" style={{animationDelay:'0.60s'}}>
           <div className="land-stat">
-            <span className="land-stat-num">95.3%</span>
+            <span className="land-stat-num">98.3%</span>
             <span className="land-stat-label">Test accuracy</span>
           </div>
           <div className="land-stat-divider" />
